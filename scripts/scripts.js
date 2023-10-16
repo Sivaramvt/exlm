@@ -12,9 +12,39 @@ import {
   waitForLCP,
   loadBlocks,
   loadCSS,
+  decorateBlock,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
+
+
+function toBlock(classNames, rows, document){
+  const parent = document.createElement('div');
+  var classList = classNames.split(" ");
+  parent.classList.add(...classList);
+  rows.forEach((row) => {
+    const rowDiv =  document.createElement('div');
+    row.forEach((cell) => {
+      const cellDiv =  document.createElement('div');
+      cellDiv.append(cell);
+      rowDiv.appendChild(cellDiv);
+    });
+    parent.appendChild(rowDiv);
+  });
+  return parent;
+}
+
+
+function convertTables(document){
+  const tables = Array.from(document.getElementsByTagName('table'));
+  if (tables.length) {
+    tables.forEach((table) => {
+      const block = toBlock(table.rows[0].cells[0].innerHTML, [[table.rows[1].cells[0]]], document);
+      table.replaceWith(block);
+    });
+  }
+}
+
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -85,6 +115,8 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    // Convert tables to handle nested blocks.
+    convertTables(document);
     document.body.classList.add('appear');
     await waitForLCP(LCP_BLOCKS);
   }
