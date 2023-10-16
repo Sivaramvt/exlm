@@ -555,6 +555,14 @@ export async function loadBlocks(main) {
     await loadBlock(blocks[i]);
     updateSectionsStatus(main);
   }
+
+  // Handle nested blocks
+  var nestedBlocks = document.querySelectorAll('.nestedBlock');
+  for (let i = 0; i < nestedBlocks.length; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    decorateBlock(blocks[i]);
+    await loadBlock(nestedBlocks[i]);
+  }
 }
 
 /**
