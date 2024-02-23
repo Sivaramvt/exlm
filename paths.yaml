@@ -14,6 +14,8 @@ mappings:
   - /content/exlm-sivt/global/en/top-products:/en/top-products.json
   - /content/exlm-sivt/configuration.json:/.helix/config.json
   - /content/exlm-sivt/qualtrics:/qualtrics.json
+  - /content/exlm-sivt/featured-card-products:/featured-card-products.json
+  - /content/exlm-sivt/featured-card:/featured-card.json
 
   # force load some paths as resource from codebus in the editor (sw.js)
   - /content/exlm-sivt.resource/fragments/:/fragments/
